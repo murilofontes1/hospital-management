@@ -1,0 +1,27 @@
+O padrão de arquitetura MVC (Model-View-Controller) é um padrão amplamente utilizado no 
+desenvolvimento de software para separar as preocupações e organizar o código de forma mais 
+modular e escalável. Vou explicar brevemente como funciona o MVC:
+
+Model (Modelo): O modelo representa os dados e a lógica de negócios da aplicação. Ele é responsável 
+por armazenar e manipular os dados, bem como fornecer métodos para acessá-los. O modelo não tem 
+conhecimento sobre a interface do usuário ou como os dados são apresentados.
+
+View (Visualização): A visualização é responsável por exibir os dados do modelo ao usuário. 
+Ela é a camada de apresentação da aplicação e pode ser uma interface gráfica, uma página web, 
+um relatório, etc. A visualização não contém lógica de negócios, apenas exibe os dados fornecidos 
+pelo modelo.
+
+Controller (Controlador): O controlador atua como intermediário entre o modelo e a visualização. 
+Ele recebe as interações do usuário na visualização e atualiza o modelo de acordo. Além disso, 
+o controlador também pode atualizar a visualização com base nas alterações do modelo. 
+Ele contém a lógica de negócios da aplicação e coordena as interações entre o modelo e a visualização.
+
+A ideia principal do MVC é separar as responsabilidades em diferentes componentes, 
+permitindo que cada um deles seja desenvolvido e testado de forma independente. 
+Isso facilita a manutenção do código, a reutilização de componentes e a escalabilidade do projeto.
+
+Por exemplo, imagine um aplicativo de lista de tarefas. O modelo seria responsável por 
+armazenar as tarefas, o controlador receberia as ações do usuário 
+(como adicionar, editar ou excluir uma tarefa) e atualizaria o modelo de acordo, 
+e a visualização exibiria a lista de tarefas atualizada para o usuário.
+
