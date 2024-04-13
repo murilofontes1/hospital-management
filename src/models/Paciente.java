@@ -1,19 +1,25 @@
 package src.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Paciente extends Pessoa {
     private String codPaciente;
-    private boolean interado;
+    private boolean internado;
     private boolean planoDeSaude;
 
-    public Paciente(String nome, String cpf, String telefone, Date dataNasc, boolean sexo, String codPaciente,
-            boolean interado, boolean planoDeSaude) {
+    public Paciente(){
+        super("", "", "", new Date(System.currentTimeMillis()), true);
+        this.internado = false;
+        this.planoDeSaude = false;
+    }
+    
+    public Paciente(String nome, String cpf, String telefone, Date dataNasc, boolean sexo,
+            boolean internado, boolean planoDeSaude) {
         super(nome, cpf, telefone, dataNasc, sexo);
-        this.codPaciente = codPaciente;
-        this.interado = interado;
+        this.internado = internado;
         this.planoDeSaude = planoDeSaude;
     }
+    
 
     public String getCodPaciente() {
         return codPaciente;
@@ -23,12 +29,12 @@ public class Paciente extends Pessoa {
         this.codPaciente = codPaciente;
     }
 
-    public boolean isInterado() {
-        return interado;
+    public boolean isInternado() {
+        return internado;
     }
 
-    public void setInterado(boolean interado) {
-        this.interado = interado;
+    public void setInternado(boolean internado) {
+        this.internado = internado;
     }
 
     public boolean isPlanoDeSaude() {
@@ -40,7 +46,7 @@ public class Paciente extends Pessoa {
     }
 
     public String getInterado() {
-        if (interado) {
+        if (internado) {
             return "Internado";
         } else {
             return "Não internado";
@@ -68,3 +74,4 @@ public class Paciente extends Pessoa {
         return s;
     }
 }
+
