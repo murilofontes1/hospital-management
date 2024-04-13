@@ -1,6 +1,9 @@
 package src.utils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -12,7 +15,12 @@ public class FuncUtils {
     public static void fechaScanner() {
         input.close();
     }
- 
+
+    public static String readPassword() {
+        String pass = input.nextLine();
+        return pass;
+    }
+
     public static void clearScreen() {
         String os = System.getProperty("os.name").toLowerCase();
         try {
@@ -234,6 +242,34 @@ public class FuncUtils {
             } else {
                 System.out.println("Resposta inválida. Por favor, digite S para sim ou N para não.");
             }
+        }
+    }
+
+    public static String encryptMD5(String senha) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+
+        MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+        byte hash[] = algorithm.digest(senha.getBytes("UTF-8"));
+
+        StringBuilder texto = new StringBuilder();
+        for (byte b : hash) {
+            texto.append(String.format("%02X", 0xFF & b));
+        }
+        return texto.toString();
+    }
+
+    public static String decryptMD5(String encryptedPassword) {
+        try {
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+            byte[] hash = algorithm.digest(encryptedPassword.getBytes("UTF-8"));
+
+            StringBuilder decryptedPassword = new StringBuilder();
+            for (byte b : hash) {
+                decryptedPassword.append(String.format("%02X", 0xFF & b));
+            }
+            return decryptedPassword.toString();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
