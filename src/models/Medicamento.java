@@ -4,6 +4,18 @@ public class Medicamento {
     private String codMedicamento;
     private String nome;
 
+    public Medicamento() {
+    }
+
+    public Medicamento(String codMedicamento, String nome) {
+        this.codMedicamento = codMedicamento;
+        this.nome = nome;
+    }
+
+    public Medicamento(String nome) {
+        this.nome = nome;
+    }
+
     public String getCodMedicamento() {
         return codMedicamento;
     }

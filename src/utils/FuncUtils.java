@@ -192,6 +192,19 @@ public class FuncUtils {
         }
     }
 
+    public static String readCrm() {
+        while (true) {
+            System.out.print("Digite o CRM (no formato 'CRM/UF 123456'): ");
+            String crm = input.nextLine().trim();
+
+            // Verificar se o CRM está no formato correto
+            if (crm.matches("CRM/[A-Z]{2} \\d{6}")) {
+                return crm;
+            } else {
+                System.out.println("Formato de CRM inválido. Por favor, digite no formato 'CRM/UF 123456'.");
+            }
+        }
+    }
 
     public static double readSalary() {
         while (true) {
@@ -205,6 +218,21 @@ public class FuncUtils {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, digite um valor numérico para o salário.");
+            }
+        }
+    }
+
+    public static boolean readShift() {
+        while (true) {
+            System.out.print("O médico está de plantão? (S/N): ");
+            String resposta = input.nextLine().trim().toUpperCase();
+
+            if (resposta.equals("S")) {
+                return true;
+            } else if (resposta.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Resposta inválida. Por favor, digite S para sim ou N para não.");
             }
         }
     }

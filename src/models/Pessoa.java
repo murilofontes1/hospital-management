@@ -9,6 +9,10 @@ public abstract class Pessoa {
     private Date dataNasc;
     private boolean sexo; // true = masculino, false = feminino
 
+    public Pessoa() {
+    
+    }
+
     public Pessoa(String nome, String cpf, String telefone, Date dataNasc, boolean sexo) {
         this.nome = nome;
         this.cpf = cpf;

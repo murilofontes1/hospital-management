@@ -1,24 +1,25 @@
 package src.models;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Medico extends Funcionario {
     private String crm;
     private String especialidade;
     private boolean plantao;
-    private ArrayList<Consulta> consultasRealizadas;
 
-    public Medico(String nome, String cpf, String telefone, Date dataNasc, boolean sexo, String codFunc, double salario,
+    public Medico() {
+        super();
+    }
+
+    public Medico(String nome, String cpf, String telefone, Date dataNasc, boolean sexo, double salario,
             Date dataDeAdmissao, Time horarioDeTrabalhoInicio, Time horarioDeTrabalhoFinal, String crm,
-            String especialidade, boolean plantao, ArrayList<Consulta> consultasRealizadas) {
-        super(nome, cpf, telefone, dataNasc, sexo, codFunc, salario, dataDeAdmissao, horarioDeTrabalhoInicio,
+            String especialidade, boolean plantao) {
+        super(nome, cpf, telefone, dataNasc, sexo, salario, dataDeAdmissao, horarioDeTrabalhoInicio,
                 horarioDeTrabalhoFinal);
         this.crm = crm;
         this.especialidade = especialidade;
         this.plantao = plantao;
-        this.consultasRealizadas = consultasRealizadas;
     }
 
     public String getCrm() {
@@ -49,14 +50,6 @@ public class Medico extends Funcionario {
 
     public void setPlantao(boolean plantao) {
         this.plantao = plantao;
-    }
-
-    public ArrayList<Consulta> getConsultasRealizadas() {
-        return consultasRealizadas;
-    }
-
-    public void setConsultasRealizadas(ArrayList<Consulta> consultasRealizadas) {
-        this.consultasRealizadas = consultasRealizadas;
     }
 
     @Override

@@ -4,28 +4,22 @@ import java.util.Date;
 import java.sql.Time;
 
 public abstract class Funcionario extends Pessoa {
-    private String codFunc;
     private double salario;
     private Date dataDeAdmissao;
     private Time horarioDeTrabalhoInicio;
     private Time horarioDeTrabalhoFinal;
 
-    public Funcionario(String nome, String cpf, String telefone, Date dataNasc, boolean sexo, String codFunc,
+    public Funcionario() {
+        super();
+    }
+
+    public Funcionario(String nome, String cpf, String telefone, Date dataNasc, boolean sexo,
             double salario, Date dataDeAdmissao, Time horarioDeTrabalhoInicio, Time horarioDeTrabalhoFinal) {
         super(nome, cpf, telefone, dataNasc, sexo);
-        this.codFunc = codFunc;
         this.salario = salario;
         this.dataDeAdmissao = dataDeAdmissao;
         this.horarioDeTrabalhoInicio = horarioDeTrabalhoInicio;
         this.horarioDeTrabalhoFinal = horarioDeTrabalhoFinal;
-    }
-
-    public String getCodFunc() {
-        return codFunc;
-    }
-
-    public void setCodFunc(String codFunc) {
-        this.codFunc = codFunc;
     }
 
     public double getSalario() {
@@ -58,5 +52,9 @@ public abstract class Funcionario extends Pessoa {
 
     public void setHorarioDeTrabalhoFinal(Time horarioDeTrabalhoFinal) {
         this.horarioDeTrabalhoFinal = horarioDeTrabalhoFinal;
+    }
+
+    public double gerarSalarioAnual() {
+        return (this.salario) * 12;
     }
 }
