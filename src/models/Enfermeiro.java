@@ -1,17 +1,21 @@
 package src.models;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 public class Enfermeiro extends Funcionario {
     private String coren;
 
-    public Enfermeiro(String nome, String cpf, String telefone, Date dataNasc, boolean sexo, String codFunc,
+    public Enfermeiro(String nome, String cpf, String telefone, Date dataNasc, boolean sexo,
             double salario, Date dataDeAdmissao, Time horarioDeTrabalhoInicio, Time horarioDeTrabalhoFinal,
             String coren) {
-        super(nome, cpf, telefone, dataNasc, sexo, codFunc, salario, dataDeAdmissao, horarioDeTrabalhoInicio,
+        super(nome, cpf, telefone, dataNasc, sexo, salario, dataDeAdmissao, horarioDeTrabalhoInicio,
                 horarioDeTrabalhoFinal);
         this.coren = coren;
+    }
+
+    public Enfermeiro(){
+        super();
     }
 
     public String getCoren() {

@@ -214,6 +214,47 @@ public class FuncUtils {
         }
     }
 
+    public static String readCoren() {
+        while (true) {
+            System.out.print("Digite o Coren (no formato 'Coren-UF 123.456'): ");
+            String coren = input.nextLine().trim();
+
+            // Verificar se o Coren está no formato correto
+            if (coren.matches("Coren-[A-Z]{2} \\d{3}.\\d{3}")) {
+                System.out.println("Digite a categoria");
+                System.out.println("[1] - Enfermeiro(a)");
+                System.out.println("[2] - Obstetro(iz)");
+                System.out.println("[3] - Tecnico(a)");
+                System.out.println("[4] - Auxiliar");
+                System.out.println("[5] - Parteiro(a)");
+                int op = input.nextInt();
+                switch (op) {
+                    case 1:
+                        coren = coren+"-ENF";
+                        break;
+                    case 2:
+                        coren = coren+"-OBST";
+                        break;
+                    case 3:
+                        coren = coren+"-TE";
+                        break;
+                    case 4:
+                        coren = coren+"-AE";
+                        break;
+                    case 5:
+                        coren = coren+"-PAR";
+                        
+                        break;
+                    default:
+                        break;
+                }
+                return coren;
+            } else {
+                System.out.println("Formato de CRM inválido. Por favor, digite no formato 'Coren-UF 123.456'.");
+            }
+        }
+    }
+
     public static double readSalary() {
         while (true) {
             try {
