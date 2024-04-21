@@ -1,8 +1,12 @@
 package src.models;
 
-import java.util.Date;
+import java.sql.Date;
 import java.sql.Time;
-
+/*
+ * Classe para representar um funcionário
+ * Funcionário é uma pessoa que trabalha no hospital
+ * Funcionário contém um salário, data de admissão, horário de trabalho de início e final
+ */
 public abstract class Funcionario extends Pessoa {
     private double salario;
     private Date dataDeAdmissao;
@@ -57,4 +61,5 @@ public abstract class Funcionario extends Pessoa {
     public double gerarSalarioAnual() {
         return (this.salario) * 12;
     }
+
 }

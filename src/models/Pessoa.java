@@ -1,7 +1,10 @@
 package src.models;
 
-import java.util.Date;
-
+import java.sql.Date;
+/* 
+ * Classe para representar uma pessoa
+ * Pessoa é uma classe abstrata que contém nome, cpf, telefone, data de nascimento e sexo
+ */
 public abstract class Pessoa {
     private String nome;
     private String cpf;
@@ -9,16 +12,16 @@ public abstract class Pessoa {
     private Date dataNasc;
     private boolean sexo; // true = masculino, false = feminino
 
-    public Pessoa() {
-    
-    }
-
     public Pessoa(String nome, String cpf, String telefone, Date dataNasc, boolean sexo) {
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
         this.dataNasc = dataNasc;
         this.sexo = sexo;
+    }
+
+    public Pessoa() {
+
     }
 
     public String getNome() {

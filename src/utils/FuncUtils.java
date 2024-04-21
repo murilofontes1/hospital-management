@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FuncUtils {
@@ -16,8 +17,27 @@ public class FuncUtils {
         input.close();
     }
 
+    public static String readLogin() {
+        String login;
+        do {
+            login = input.nextLine().trim(); // Remove espaços em branco no início e no final
+            if (login.contains(" ")) {
+                System.out.println("O login não pode conter espaços em branco.");
+            }
+        } while (login.contains(" "));
+        return login;
+    }
+
     public static String readPassword() {
-        String pass = input.nextLine();
+        String pass;
+        do {
+            pass = input.nextLine().trim(); // Remover espaços em branco no início e no final
+            if (pass.length() < 6) {
+                System.out.println("A senha deve ter pelo menos 6 caracteres.");
+            } else if (pass.contains(" ")) {
+                System.out.println("A senha não pode conter espaços em branco.");
+            }
+        } while (pass.length() < 6 || pass.contains(" "));
         return pass;
     }
 
@@ -28,8 +48,11 @@ public class FuncUtils {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
                 // Unix-like OS (Linux/Unix)
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+                try {
+                    new ProcessBuilder("clear").inheritIO().start().waitFor();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
             } else if (os.contains("mac")) {
                 // Mac OS
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
@@ -52,7 +75,6 @@ public class FuncUtils {
     public static int readInt() {
         while (true) {
             try {
-                System.out.print("Digite um número inteiro: ");
                 String inputStr = input.nextLine().trim();
                 return Integer.parseInt(inputStr);
             } catch (NumberFormatException e) {
@@ -173,6 +195,21 @@ public class FuncUtils {
         }
     }
 
+    public static boolean readNeedToHospitalize() {
+        while (true) {
+            System.out.print("O paciente precisa ser internado? (S/N): ");
+            String resposta = input.nextLine().trim().toUpperCase();
+
+            if (resposta.equals("S")) {
+                return true;
+            } else if (resposta.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Resposta inválida. Por favor, digite S para sim ou N para não.");
+            }
+        }
+    }
+
     public static boolean readHealthPlan() {
         while (true) {
             System.out.print("O paciente possui plano de saúde? (S/N): ");
@@ -227,25 +264,26 @@ public class FuncUtils {
                 System.out.println("[3] - Tecnico(a)");
                 System.out.println("[4] - Auxiliar");
                 System.out.println("[5] - Parteiro(a)");
-                int op = input.nextInt();
+                System.out.print("Digite a opção: ");
+                int op = readInt();
                 switch (op) {
                     case 1:
-                        coren = coren+"-ENF";
+                        coren = coren + "-ENF";
                         break;
                     case 2:
-                        coren = coren+"-OBST";
+                        coren = coren + "-OBST";
                         break;
                     case 3:
-                        coren = coren+"-TE";
+                        coren = coren + "-TE";
                         break;
                     case 4:
-                        coren = coren+"-AE";
+                        coren = coren + "-AE";
                         break;
                     case 5:
-                        coren = coren+"-PAR";
-                        
+                        coren = coren + "-PAR";
                         break;
                     default:
+                        System.out.println("Opção inválida.");
                         break;
                 }
                 return coren;
@@ -267,6 +305,26 @@ public class FuncUtils {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, digite um valor numérico para o salário.");
+            }
+        }
+    }
+
+    public static Time readTime() {
+        while (true) {
+            try {
+                System.out.print("Digite o horário (no formato HH:MM:SS): ");
+                String timeInput = input.nextLine().trim();
+
+                // Verificar se o horário está no formato correto
+                if (timeInput.matches("\\d{2}:\\d{2}:\\d{2}")) {
+                    // Convertendo a string para java.sql.Time
+                    Time sqlTime = Time.valueOf(timeInput);
+                    return sqlTime;
+                } else {
+                    System.out.println("Formato de horário inválido. Por favor, digite no formato HH:MM:SS.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Horário inválido. Por favor, digite um horário válido.");
             }
         }
     }
@@ -298,43 +356,63 @@ public class FuncUtils {
         return texto.toString();
     }
 
-    public static String decryptMD5(String encryptedPassword) {
-        try {
-            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
-            byte[] hash = algorithm.digest(encryptedPassword.getBytes("UTF-8"));
+    public static ArrayList<String> readSymptoms() {
+        ArrayList<String> sintomas = new ArrayList<String>();
+        while (true) {
+            System.out.print("Digite um sintoma (ou 'sair' para encerrar): ");
+            String sintoma = readOnlyLettersAndSpaces();
 
-            StringBuilder decryptedPassword = new StringBuilder();
-            for (byte b : hash) {
-                decryptedPassword.append(String.format("%02X", 0xFF & b));
+            if (sintoma.equalsIgnoreCase("sair")) {
+                break;
+            } else {
+                sintomas.add(sintoma);
             }
-            return decryptedPassword.toString();
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
         }
+        return sintomas;
     }
 
-    public static Time readTime() {
-        while (true) {
-            try {
-                System.out.print("Digite o horário (no formato HH:MM:SS): ");
-                String timeInput = input.nextLine().trim();
+    public static String readPosology() {
+        System.out.println("Digite a posologia do medicamento\n");
 
-                // Verificar se o horário está no formato correto
-                if (timeInput.matches("\\d{2}:\\d{2}:\\d{2}")) {
-                    // Convertendo a string para java.sql.Time
-                    Time sqlTime = Time.valueOf(timeInput);
-                    return sqlTime;
-                } else {
-                    System.out.println("Formato de horário inválido. Por favor, digite no formato HH:MM:SS.");
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Horário inválido. Por favor, digite um horário válido.");
-            }
-        }
+        System.out.print("Digite a frequência (por exemplo, '8 horas'): ");
+        String frequencia = input.nextLine();
+
+        System.out.print("Digite a duração (por exemplo, '7 dias'): ");
+        String duracao = input.nextLine();
+
+        String posologia = String.format("Frequência: %s, Duração: %s", frequencia, duracao);
+        return posologia;
+    }
+
+    public static String readDosage() {
+        System.out.println("Digite a dosagem do medicamento\n");
+
+        System.out.print("Digite a quantidade (por exemplo, '1 comprimido'): ");
+        String quantidade = input.nextLine();
+
+        System.out.print("Digite a dose (por exemplo, '500 mg'): ");
+        String dose = input.nextLine();
+        String dosagem = String.format("Quantidade: %s, Dose: %s", quantidade, dose);
+
+        return dosagem;
     }
 
     public static String spacesGenerator(int n) {
         return " ".repeat(n);
+    }
+
+    public static boolean readYesOrNo(String string) {
+        while (true) {
+            System.out.print(string);
+            String resposta = input.nextLine().trim().toUpperCase();
+
+            if (resposta.equals("S")) {
+                return true;
+            } else if (resposta.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Resposta inválida. Por favor, digite S para sim ou N para não.");
+            }
+        }
     }
 }

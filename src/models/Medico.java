@@ -1,8 +1,12 @@
 package src.models;
 
 import java.sql.Time;
-import java.util.Date;
-
+import java.sql.Date;
+/*
+ * Classe para representar um médico
+ * Médico é um funcionário que possui um CRM e uma especialidade
+ * Médico contem crm, especialidade e se está em plantão
+ */
 public class Medico extends Funcionario {
     private String crm;
     private String especialidade;
@@ -43,9 +47,9 @@ public class Medico extends Funcionario {
     }
 
     public String getPlantao() {
-        if (plantao) 
-            return "Está de plantão";
-        return "Não está de plantão";
+        if (plantao)
+            return "Sim";
+        return "Não";
     }
 
     public void setPlantao(boolean plantao) {
@@ -56,8 +60,14 @@ public class Medico extends Funcionario {
     public String toString() {
         String s = "";
         s += "Médico: " + getNome() + "\n";
-        s += "CRM: " + crm + "\n";
-        s += "Especialidade: " + especialidade + "\n";
+        s += "CPF: " + getCpf() + "\n";
+        s += "Telefone: " + getTelefone() + "\n";
+        s += "Salário: " + getSalario() + "\n";
+        s += "Data de nascimento: " + getDataNasc() + "\n";
+        s += "Data de admissão: " + getDataDeAdmissao() + "\n";
+        s += "Horário de trabalho: " + getHorarioDeTrabalhoInicio() + " às " + getHorarioDeTrabalhoFinal() + "\n";
+        s += "CRM: " + getCrm() + "\n";
+        s += "Especialidade: " + getEspecialidade() + "\n";
         s += "Plantão: " + getPlantao() + "\n";
         return s;
     }

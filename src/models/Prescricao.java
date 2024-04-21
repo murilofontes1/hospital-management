@@ -1,16 +1,41 @@
 package src.models;
-
+/*
+ * Classe para representar uma prescrição
+ * Prescrição é feita por um médico a um paciente atraves de uma consulta
+ * Prescrição contém um código, código da consulta, medicamento, dosagem e posologia
+ */
 public class Prescricao {
     private String codPrescricao;
-    private String medicamento;
+    private String codConsulta;
+    private Medicamento medicamento;
     private String dosagem; // pode ser em ml, mg e etc
     private String posologia;
 
-    public Prescricao(String codPrescricao, String medicamento, String dosagem, String posologia) {
+    public Prescricao(String codPrescricao, String codConsulta, Medicamento medicamento, String dosagem,
+            String posologia) {
         this.codPrescricao = codPrescricao;
         this.medicamento = medicamento;
         this.dosagem = dosagem;
         this.posologia = posologia;
+        this.codConsulta = codConsulta;
+    }
+
+    public Prescricao(Medicamento medicamento, String codConsulta, String dosagem, String posologia) {
+        this.medicamento = medicamento;
+        this.dosagem = dosagem;
+        this.posologia = posologia;
+        this.codConsulta = codConsulta;
+    }
+
+    public Prescricao() {
+    }
+
+    public String getCodConsulta() {
+        return codConsulta;
+    }
+
+    public void setCodConsulta(String codConsulta) {
+        this.codConsulta = codConsulta;
     }
 
     public String getCodPrescricao() {
@@ -21,11 +46,11 @@ public class Prescricao {
         this.codPrescricao = codPrescricao;
     }
 
-    public String getMedicamento() {
+    public Medicamento getMedicamento() {
         return medicamento;
     }
 
-    public void setMedicamento(String medicamento) {
+    public void setMedicamento(Medicamento medicamento) {
         this.medicamento = medicamento;
     }
 
@@ -47,7 +72,12 @@ public class Prescricao {
 
     @Override
     public String toString() {
-        return "Prescricao [codPrescricao=" + codPrescricao + ", dosagem=" + dosagem + ", medicamento=" + medicamento
-                + ", posologia=" + posologia + "]\n";
+        String s = "";
+        s += "Código da prescrição: " + getCodPrescricao() + "\n";
+        s += "Código da consulta: " + getCodConsulta() + "\n";
+        s += "Medicamento: " + getMedicamento().getNome() + "\n";
+        s += "Dosagem: " + getDosagem() + "\n";
+        s += "Posologia: " + getPosologia() + "\n";
+        return s;
     }
 }
