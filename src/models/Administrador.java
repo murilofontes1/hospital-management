@@ -1,8 +1,12 @@
 package src.models;
 
 import java.sql.Time;
-import java.util.Date;
-
+import java.sql.Date;
+/*
+    *Classe para reprensentar um administrador
+    *Administrador é um tipo de funcionário
+    *Administrador contém um login e senha e os atributos de funcionário
+ */
 public class Administrador extends Funcionario {
     private String login;
     private String senha;
@@ -17,6 +21,7 @@ public class Administrador extends Funcionario {
     }
 
     public Administrador() {
+
     }
 
     public String getLogin() {
@@ -39,12 +44,13 @@ public class Administrador extends Funcionario {
     public String toString() {
         String s = "";
         s += "Administrador: " + getNome() + "\n";
+        s += "Login: " + getLogin() + "\n";
         s += "CPF: " + getCpf() + "\n";
         s += "Telefone: " + getTelefone() + "\n";
         s += "Salário: " + getSalario() + "\n";
+        s += "Data de nascimento: " + getDataNasc() + "\n";
         s += "Data de admissão: " + getDataDeAdmissao() + "\n";
         s += "Horário de trabalho: " + getHorarioDeTrabalhoInicio() + " às " + getHorarioDeTrabalhoFinal() + "\n";
         return s;
     }
-
 }

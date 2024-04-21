@@ -1,41 +1,55 @@
 package src.controllers;
 
-
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
 
 import src.data.Banco;
 import src.models.Administrador;
 import src.utils.FuncUtils;
 
+/*
+ * Classe para manipular os dados de um administrador
+ * AdministradorDao contém métodos para cadastrar, buscar, editar e excluir um administrador
+ */
+
 public class AdministradorDao {
-    Banco db;
 
-    public AdministradorDao(){
-        db = new Banco();
-    }
+    public static void cadastrarAdministrador(Administrador administrador, Banco db)
+            throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
-    public void cadastrarAdministrador(Administrador administrador) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+                /* 
+                 * Método para cadastrar um administrador
+                 * Recebe um objeto administrador e um objeto de banco de dados
+                 * Insere os dados do administrador no banco de dados
+                 */
 
         String senha = administrador.getSenha();
         senha = FuncUtils.encryptMD5(senha);
-        System.out.println(senha);
         String query = String.format(
-        "INSERT INTO Administrador (nome, cpf, telefone, data_nascimento, sexo, salario, data_admissao, horario_trabalho_inicio, horario_trabalho_final,login,senha )VALUES ('%s', '%s', '%s', '%tF', %b, '%.2f', '%tF', '%tT', '%tT', '%s', '%s');",
-        administrador.getNome(), administrador.getCpf(), administrador.getTelefone(), administrador.getDataNasc(),
-        administrador.isSexo(), administrador.getSalario(), administrador.getDataDeAdmissao(),
-        administrador.getHorarioDeTrabalhoInicio(), administrador.getHorarioDeTrabalhoFinal(),administrador.getLogin(),senha);
-    System.out.println(query);
-        db.querry_insup(query);
+                "INSERT INTO Administrador (nome, cpf, telefone, data_nascimento, sexo, salario, data_admissao, horario_trabalho_inicio, horario_trabalho_final,login,senha )VALUES ('%s', '%s', '%s', '%tF', %b, '%.2f', '%tF', '%tT', '%tT', '%s', '%s');",
+                administrador.getNome(), administrador.getCpf(), administrador.getTelefone(),
+                administrador.getDataNasc(),
+                administrador.isSexo(), administrador.getSalario(), administrador.getDataDeAdmissao(),
+                administrador.getHorarioDeTrabalhoInicio(), administrador.getHorarioDeTrabalhoFinal(),
+                administrador.getLogin(), senha);
+        db.queryInsup(query);
     }
 
-    public Administrador buscaAdministrador(String login) throws SQLException {
+    public static Administrador buscaAdministrador(String login, Banco db) throws SQLException {
+
+                /*
+                 * Método para buscar um administrador
+                 * Recebe um login e um objeto de banco de dados
+                 * Retorna um objeto administrador com os dados do administrador encontrado
+                 */
+
         String query = "SELECT * FROM Administrador WHERE login = '" + login + "';";
-        ResultSet rs = db.querry_busca(query);
+        ResultSet rs = db.queryBusca(query);
         Administrador administrador = new Administrador();
 
         if (rs.next() && rs != null) {
@@ -63,61 +77,88 @@ public class AdministradorDao {
             administrador.setLogin(rs.getString("login"));
 
             String senha = rs.getString("senha");
-            senha = FuncUtils.decryptMD5(senha);
             administrador.setSenha(senha);
         } else {
-            System.out.println("Administrador não encontrado.");
             return null;
         }
-        rs.close();
         return administrador;
     }
 
-    public void editarAdministrador(Administrador administrador) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        
+    public static void editarAdministrador(Administrador administrador, Banco db)
+            throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+
+                /*
+                 * Método para editar um administrador
+                * Recebe um objeto administrador e um objeto de banco de dados
+                * Atualiza os dados do administrador no banco de dados
+                 */
+
         String senha = administrador.getSenha();
         senha = FuncUtils.encryptMD5(senha);
-        
         String query = String.format(
                 "UPDATE Administrador SET nome = '%s', cpf = '%s', telefone = '%s', data_nascimento = '%tF', sexo = %b, salario = '%.2f', data_admissao = '%tF', horario_trabalho_inicio = '%tT', horario_trabalho_final = '%tT', login = '%s', senha = '%s' WHERE cpf = '%s';",
-                administrador.getNome(), administrador.getCpf(), administrador.getTelefone(), administrador.getDataNasc(),
+                administrador.getNome(), administrador.getCpf(), administrador.getTelefone(),
+                administrador.getDataNasc(),
                 administrador.isSexo(), administrador.getSalario(), administrador.getDataDeAdmissao(),
                 administrador.getHorarioDeTrabalhoInicio(), administrador.getHorarioDeTrabalhoFinal(),
                 administrador.getLogin(), senha, administrador.getCpf());
-        db.querry_insup(query);
+        db.queryInsup(query);
     }
 
-    public void excluirAdministrador(Administrador administrador) throws SQLException {
+    public static void excluirAdministrador(Administrador administrador, Banco db) throws SQLException {
+                
+                /*
+                * Método para excluir um administrador
+                * Recebe um objeto administrador e um objeto de banco de dados
+                * Remove os dados do administrador do banco de dados
+                */
+
         if (administrador != null) {
             String querry = "DELETE FROM Administrador WHERE cpf = '" + administrador.getCpf() + "';";
-            db.querry_insup(querry);
+            db.queryInsup(querry);
         }
     }
 
-    public void listarAdministradores() throws SQLException {
-        String query = "SELECT * FROM Administrador;";
-        ResultSet rs = db.querry_busca(query);
+    public static ArrayList<Administrador> listarAdministradores(Banco db) throws SQLException {
+                
+                /*
+                 * Método para listar os administradores
+                 * Recebe um objeto de banco de dados
+                 * Retorna um ArrayList com os administradores encontrados
+                 */
 
-        System.out.printf("|Cod%s|Nome%s|Sexo%s|Salário%s|CPF%s|\n",
-                FuncUtils.spacesGenerator(4), FuncUtils.spacesGenerator(26), FuncUtils.spacesGenerator(9),
-                FuncUtils.spacesGenerator(3),
-                FuncUtils.spacesGenerator(12), FuncUtils.spacesGenerator(8));
+        String query = "SELECT * FROM Administrador;";
+        ResultSet rs = db.queryBusca(query);
+        ArrayList<Administrador> administradores = new ArrayList<Administrador>();
 
         while (rs.next()) {
-            String cod = rs.getString("id_adm");
-            String nome = rs.getString("nome");
-            boolean sexo = rs.getBoolean("sexo");
-            double salario = rs.getDouble("salario");
-            String cpf = rs.getString("cpf");
-            String sexoStr = sexo ? "Masculino" : "Feminino";
+            Administrador administrador = new Administrador();
+            administrador.setNome(rs.getString("nome"));
+            administrador.setCpf(rs.getString("cpf"));
+            administrador.setTelefone(rs.getString("telefone"));
+            administrador.setLogin(rs.getString("login"));
+            administrador.setSenha(rs.getString("senha"));
+            administrador.setSexo(rs.getBoolean("sexo"));
+            administrador.setSalario(rs.getDouble("salario"));
 
-            System.out.printf("|%-7s|%-30s|%-13s|%-10.2f|%s\n", cod, nome, sexoStr, salario, cpf);
+            String dataNascStr = rs.getString("data_nascimento");
+            Date dataNasc = Date.valueOf(dataNascStr);
+            administrador.setDataNasc(dataNasc);
+
+            String dataAdmissaoStr = rs.getString("data_admissao");
+            Date dataAdmissao = Date.valueOf(dataAdmissaoStr);
+            administrador.setDataDeAdmissao(dataAdmissao);
+
+            String horarioInicioStr = rs.getString("horario_trabalho_inicio");
+            Time horarioInicio = Time.valueOf(horarioInicioStr);
+            administrador.setHorarioDeTrabalhoInicio(horarioInicio);
+
+            String horarioFinalStr = rs.getString("horario_trabalho_final");
+            Time horarioFinal = Time.valueOf(horarioFinalStr);
+            administrador.setHorarioDeTrabalhoFinal(horarioFinal);
+
+            administradores.add(administrador);
         }
-        rs.close();
-    }
-    
-    public void administradorFech(){
-        db.desconect();
+        return administradores;
     }
 }
-

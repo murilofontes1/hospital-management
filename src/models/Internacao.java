@@ -1,21 +1,29 @@
 package src.models;
 
 import java.util.Date;
-
+/*
+ * Classe para representar uma internação
+ * Internação é feita por um médico a um paciente, e pode ser atraves de uma consulta
+ * Internação contém um código, data de internação, data de alta, id do paciente e id da enfermaria
+ */
 public class Internacao {
     private String codInternacao;
-    private String dataInternacao;
+    private Date dataInternacao;
     private Date dataAlta;
-    private Paciente pacienteInternado;
-    private Enfermaria enfermariaInternacao;
+    private String idPaciente;
+    private String idEnfermaria;
 
-    public Internacao(String codInternacao, String dataInternacao, Date dataAlta, Paciente pacienteInternado,
-            Enfermaria enfermariaInternacao) {
+    public Internacao(String codInternacao, Date dataInternacao, Date dataAlta, String idPaciente,
+            String idEnfermaria) {
         this.codInternacao = codInternacao;
         this.dataInternacao = dataInternacao;
         this.dataAlta = dataAlta;
-        this.pacienteInternado = pacienteInternado;
-        this.enfermariaInternacao = enfermariaInternacao;
+        this.idPaciente = idPaciente;
+        this.idEnfermaria = idEnfermaria;
+    }
+
+    public Internacao() {
+
     }
 
     public String getCodInternacao() {
@@ -26,11 +34,11 @@ public class Internacao {
         this.codInternacao = codInternacao;
     }
 
-    public String getDataInternacao() {
+    public Date getDataInternacao() {
         return dataInternacao;
     }
 
-    public void setDataInternacao(String dataInternacao) {
+    public void setDataInternacao(Date dataInternacao) {
         this.dataInternacao = dataInternacao;
     }
 
@@ -42,26 +50,30 @@ public class Internacao {
         this.dataAlta = dataAlta;
     }
 
-    public Paciente getPacienteInternado() {
-        return pacienteInternado;
+    public String getIdPaciente() {
+        return idPaciente;
     }
 
-    public void setPacienteInternado(Paciente pacienteInternado) {
-        this.pacienteInternado = pacienteInternado;
+    public void setIdPaciente(String idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
-    public Enfermaria getEnfermariaInternacao() {
-        return enfermariaInternacao;
+    public String getIdEnfermaria() {
+        return idEnfermaria;
     }
 
-    public void setEnfermariaInternacao(Enfermaria enfermariaInternacao) {
-        this.enfermariaInternacao = enfermariaInternacao;
+    public void setIdEnfermaria(String idEnfemaria) {
+        this.idEnfermaria = idEnfemaria;
     }
 
     @Override
     public String toString() {
-        return "Internacao [codInternacao=" + codInternacao + ", dataAlta=" + dataAlta + ", dataInternacao="
-                + dataInternacao + ", enfermariaInternacao=" + enfermariaInternacao.getCodEnfermaria() + ", pacienteInternado="
-                + pacienteInternado.getNome() + "]\n";
+        String s = "";
+        s += "Código da internação: " + getCodInternacao() + "\n";
+        s += "Data de internação: " + getDataInternacao() + "\n";
+        s += "Data de alta: " + (getDataAlta() == null ? "Internado(a)" : getDataAlta()) + "\n";
+        s += "Paciente internado: " + getIdPaciente() + "\n";
+        s += "Enfermaria da internação: " + getIdEnfermaria() + "\n";
+        return s;
     }
 }

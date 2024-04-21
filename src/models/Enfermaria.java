@@ -1,5 +1,9 @@
 package src.models;
-
+/*
+ * Classe para representar uma enfermaria
+ * Enfermaria contem os pacientes internados
+ * Enfermaria contém um código, quantidade de leitos e leitos disponíveis
+ */
 public class Enfermaria {
     private String codEnfermaria;
     private int qtdeLeitos;
@@ -9,6 +13,20 @@ public class Enfermaria {
         this.codEnfermaria = codEnfermaria;
         this.qtdeLeitos = qtdeLeitos;
         this.leitosDisponiveis = qtdeLeitos;
+    }
+
+    public Enfermaria(String codEnfermaria, int qtdeLeitos, int qtdeLeitosDisponiveis) {
+        this.codEnfermaria = codEnfermaria;
+        this.qtdeLeitos = qtdeLeitos;
+        this.leitosDisponiveis = qtdeLeitosDisponiveis;
+    }
+
+    public Enfermaria(int qtdeLeitos) {
+        this.qtdeLeitos = qtdeLeitos;
+        this.leitosDisponiveis = qtdeLeitos;
+    }
+
+    public Enfermaria() {
     }
 
     public int getLeitosDisponiveis() {
@@ -37,8 +55,11 @@ public class Enfermaria {
 
     @Override
     public String toString() {
-        return "Enfermaria [codEnfermaria=" + codEnfermaria + ", leitosDisponiveis=" + leitosDisponiveis + ", qtdeLeitos="
-                + qtdeLeitos + "]\n";
+        String s = "";
+        s += "Código da enfermaria: " + getCodEnfermaria() + "\n";
+        s += "Quantidade de leitos: " + getQtdeLeitos() + "\n";
+        s += "Leitos disponíveis: " + getLeitosDisponiveis() + "\n";
+        return s;
     }
 
 }
