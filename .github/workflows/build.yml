@@ -22,6 +22,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Compile Java
+        run: |
+          mkdir -p build/classes
+          javac -d build/classes $(find src -name "*.java")
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
