@@ -14,20 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install JDK
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Download SonarScanner
+      - name: Run SonarCloud Scanner
         uses: sonarsource/sonarcloud-github-action@master
         with:
           args: >
-            sonar-scanner
             -Dsonar.projectKey=murilofontes1_hospital-management
             -Dsonar.organization=murilofontes1
-            -Dsonar.sources=src
-            -Dsonar.host.url=https://sonarcloud.io
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
