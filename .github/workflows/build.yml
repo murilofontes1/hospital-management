@@ -1,43 +1,33 @@
-name: SonarCloud
+name: SonarCloud Scan
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
-    name: Build and analyze
+  sonarcloud:
+    name: Run SonarCloud Scanner
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Necessary for SonarCloud
 
-      - name: Set up JDK 17
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+      - name: Download SonarScanner
+        uses: sonarsource/sonarcloud-github-action@master
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      - name: Build with Maven and analyze on SonarCloud
+          args: >
+            sonar-scanner
+            -Dsonar.projectKey=murilofontes1_hospital-management
+            -Dsonar.organization=murilofontes1
+            -Dsonar.sources=src
+            -Dsonar.host.url=https://sonarcloud.io
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=murilofontes1_hospital-management -Dsonar.organization=murilofontes1
